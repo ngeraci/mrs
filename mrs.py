@@ -63,7 +63,10 @@ class Name():
         """
 
         def single_name(text):
-            """ Return True if name contains no spaces.
+            """ If name contains no spaces, we're going to assume it's a surname only
+                and return True.
+                Otherwise, return False.
+
             """
             # i'm sure there's a more sophisticated way to do this
 
