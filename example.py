@@ -27,8 +27,8 @@ def create_report(infile_path, outfile_path):
         # join non-blank list items to string
         input_string = ", ".join([x for x in row_list if x])
 
-    flagged_names = []
     data = mrs.Text(input_string)
+    flagged_names = []
     for entity in data.mrs_names:
         name = mrs.Name(entity)
         if name.format == "first_last":
