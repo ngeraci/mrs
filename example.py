@@ -16,7 +16,7 @@ import mrs
 
 def main():
 
-    create_report("mrs_test_data.csv", "report.csv")
+    create_report("data/mrs_test_data.csv", "data/sample_report.csv")
 
 def create_report(infile_path, outfile_path):
 
