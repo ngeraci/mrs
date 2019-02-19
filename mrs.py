@@ -1,25 +1,18 @@
-import csv
-from itertools import chain
+""" Text analysis library that uses Spacy and gender-guesser
+    to identify personal names with the format "Mrs. [male first
+    name] [last name].
+
+    This is designed for working with legacy descriptive metadata
+    in a library/archives context. The goal is to identify potential
+    instances where women were not identified by their own names, in
+    order to target those instances for revision.
+"""
+
 import re
 import spacy
 import gender_guesser.detector as gender
 
-
-def main():
-
-    with open("mrs_test_data.csv", "r") as infile:
-        reader = csv.reader(infile)
-        # read rows to flat list
-        row_list = list(chain.from_iterable(row for row in reader))
-        # join non-blank list items to string
-        input_string = ", ".join([x for x in row_list if x])
-
-    data = Text(input_string)
-    for n in data.mrs_names:
-        name = Name(n)
-        if name.gender_guess:
-            print(name.text, name.gender_guess)
-
+GUESSER = gender.Detector()
 
 class Text():
     """ The text object is the body of text being analyzed,
@@ -56,6 +49,8 @@ class Text():
 
 
 class Name():
+    """ Name object represents a single name.
+    """
     def __init__(self, text):
         self.text = text
         self.format = self.get_name_format()
@@ -84,11 +79,12 @@ class Name():
             return bool(re.match(initials_re, text))
 
         if single_name(self.text):
-            return "surname_only"
+            name_format = "surname_only"
         elif initials_as_first_name(self.text):
-            return "initials"
+            name_format = "initials"
         else:
-            return "first_last"
+            name_format = "first_last"
+        return name_format
 
     def get_forename(self):
         """ If format is first_last, split name text on space and return first component.
@@ -96,19 +92,19 @@ class Name():
         """
         if self.format == "first_last":
             forename = self.text.split(" ")[0]
-            return forename
         else:
-            return None
+            forename = None
+        return forename
 
     def forename_gender(self):
-        """ Use gender-guesser package
+        """ If name has a forename, use gender-guesser package to return a guess as to
+            the forename's gender. Possible values are unknown (name not found),
+            andy (androgynous), male, female, mostly_male, or mostly_female.
+
+            If no forename, return None.
         """
         if self.forename:
-            guesser = gender.Detector()
-            return guesser.get_gender(self.forename)
+            guess = GUESSER.get_gender(self.forename)
         else:
-            return None
-
-
-if __name__ == "__main__":
-    main()
+            guess = None
+        return guess
