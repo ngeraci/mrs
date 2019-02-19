@@ -1,0 +1,3 @@
+en-core-web-sm==2.0.0
+gender-guesser==0.4.0
+spacy==2.0.18
