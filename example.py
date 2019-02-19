@@ -34,8 +34,6 @@ def create_report(infile_path, outfile_path):
         if name.format == "first_last":
             if name.gender_guess not in ["female", "mostly_female"]:
                 flagged_names.append("Mrs. " + name.text)
-        elif name.gender_guess == "initials":
-            flagged_names.append("Mrs. " + name.text)
 
     #most_common sorts counter by value
     name_count = Counter(flagged_names).most_common()
