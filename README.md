@@ -8,8 +8,6 @@ To view a sample report generated with this code, see [sample_report.csv](https:
 
 This is a work in progress, written as an exploratory experiment by someone who is primarily a metadata librarian rather than a developer.
 
-
-
 ## Usage
 ```python
 import mrs
@@ -22,6 +20,6 @@ for entity in data.mrs_names:
     if name.format == "first_last":
         if name.gender_guess not in ["female", "mostly_female"]:
             flagged_names.append("Mrs. " + name.text)
-            
+
 ```
 For a complete example of analyzing a tabular metadata file and creating a CSV report, see [example.py](https://github.com/ngeraci/mrs_names/blob/master/example.py).
